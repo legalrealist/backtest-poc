@@ -1,6 +1,6 @@
 # Medicare Fraud Backtest POC — Results
 
-**Generated:** 2026-05-15 13:20
+**Generated:** 2026-05-15 14:00
 
 ## Cohort Summary
 
@@ -391,6 +391,50 @@
 - **hcpcs_herfindahl**: excluded are higher (d=+0.52)
 - **top_hcpcs_share**: excluded are higher (d=+0.66)
 - **n_hcpcs_billed**: excluded are lower (d=-0.14)
+
+## DOJ Prosecution Matching
+
+A sample of **43** excluded providers was searched against DOJ press releases on justice.gov. **17** (40%) matched to published federal prosecutions.
+
+This is a floor estimate — §1128(a)(1) exclusion requires a conviction, so all providers in that category were prosecuted. Many cases are handled at state level or via plea agreements that don't generate DOJ press releases.
+
+### Matched Providers
+
+| Name | State | Type | DOJ Summary |
+|------|-------|------|-------------|
+| [Hal Abrahamson](https://www.justice.gov/usao-edny/pr/long-island-podiatrist-sentenced-health-care-fraud) | NY | 1128a1 | Sentenced 1 year and 1 day for healthcare fraud. Billed for skin grafts never performed, billed under another podiatrist's name. |
+| [Salman Ali](https://www.justice.gov/archives/opa/pr/20-detroit-area-residents-charged-medicare-fraud-strike-force-takedown-approximately-34) | MI | 1128a1 | Part of $34M Detroit-area Medicare Fraud Strike Force takedown. 20 residents charged. |
+| [Suhyun An](https://www.justice.gov/usao-sdtx/pr/wrongful-billing-results-26m-settlement-and-10-year-exclusion-federal-health-care) | TX | 1128b7 | Chiropractor agreed to $2.6M settlement and 10-year exclusion for fraudulent billing of acupuncture devices. |
+| Jimmie Anthony | MI | 1128a1 | Physical therapist pleaded guilty to billing Medicare for PT services through West Shore Comfort home care company. |
+| [Syed Aziz](https://www.justice.gov/usao-ndtx/pr/sixteen-individuals-charged-60-million-medicare-fraud-scheme) | TX | 1128a1 | Part of $60 million Medicare fraud scheme in Northern District of Texas. 16 individuals charged. |
+| Andrew Bohlman | AZ | 1128a1 | Pleaded guilty to Medicaid fraud in Montana. Listed as AZ in LEIE. |
+| [Darrell Bryant](https://www.justice.gov/usao-sdoh/pr/husband-and-wife-sentenced-prison-health-care-fraud) | OH | 1128a1 | Convicted Dec 2018, conspiracy to commit health care fraud. Sentenced to 84 months. |
+| [Moses Degraft-Johnson](https://www.justice.gov/usao-ndfl/pr/tallahassee-doctor-pleads-guilty-defrauding-health-insurance-providers-29-million-and) | NJ | 1128a1 | Dual US-Ghana citizen pleaded guilty to $2.9M health insurance fraud and conspiracy in Northern District of Florida. |
+| [Ahmed El Soury](https://www.justice.gov/usao-nj/pr/new-york-doctor-sentenced-33-months-prison-role-test-referral-scheme-new-jersey-clinical) | NJ | 1128a1 | Sentenced to 33 months for role in test referral scheme at New Jersey clinical lab. |
+| [Eva Gateva](https://www.justice.gov/archive/usao/nys/pressreleases/February12/zemlymsky/zemlyanskymikhailetalindictment.pdf) | NY | 1128a3 | Named in Zemlyansky et al. indictment — $110M mail fraud conspiracy in Eastern District of New York. |
+| [Jason Gerner](https://www.justice.gov/usao-edpa/pr/new-jersey-man-sentenced-three-years-prison-and-over-9-million-restitution-drug-rehab) | NJ | 1128a3 | Sentenced to 3 years and $9M restitution for drug rehab health care fraud scheme. |
+| [Riyaz Mazkouri](https://www.justice.gov/archives/opa/documents-and-resources-june-22-2016-medicare-fraud-strike-force-press-conference) | TX | 1128a1 | Indicted as part of 2016 Medicare Fraud Strike Force takedown. Attending physician at psychiatric hospital in Harris County, TX. |
+| [Hector Molina](https://www.justice.gov/usao-ndtx/pr/twelve-charged-dallas-part-largest-national-medicare-fraud-takedown-history) | TX | 1128a1 | Part of largest national Medicare fraud takedown in history. Charged in Dallas, Northern District of Texas. |
+| [Kyrenia Rodriguez](https://www.justice.gov/usao-sdfl/pr/south-florida-health-care-clinic-owners-doctor-others-sentenced-medical-billing-fraud) | FL | 1128a3 | Physical therapy assistant sentenced to 30 months for medical billing fraud in South Florida. |
+| Zamika Walls | FL | 1128a1 | Sentenced 15 months for $2.5M Medicaid fraud scheme in Missouri. Listed as FL in LEIE. |
+| [Mark Zager](https://www.justice.gov/criminal/criminal-vns/case/dynamic-medical-services) | FL | 1128a1 | Charged with conspiracy to commit health care fraud and wire fraud in Southern District of Florida. |
+| [Andrzej Zielke](https://www.justice.gov/usao-wdpa/pr/former-pittsburgh-area-doctor-pleads-guilty-unlawfully-prescribing-opioids-health-care) | PA | 1128a1 | Former Pittsburgh-area doctor pleaded guilty to unlawfully prescribing opioids and health care fraud via fraudulent Medicaid claims. |
+
+### Match Rate by State
+
+| State | Searched | Matched | Rate |
+|-------|----------|---------|------|
+| AZ | 1 | 1 | 100% |
+| PA | 1 | 1 | 100% |
+| TX | 5 | 4 | 80% |
+| NJ | 4 | 3 | 75% |
+| NY | 3 | 2 | 67% |
+| FL | 5 | 3 | 60% |
+| MI | 7 | 2 | 29% |
+| OH | 7 | 1 | 14% |
+| CA | 8 | 0 | 0% |
+| GA | 1 | 0 | 0% |
+| IL | 1 | 0 | 0% |
 
 ## Visualizations
 

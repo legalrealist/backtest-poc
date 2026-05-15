@@ -1,0 +1,271 @@
+{
+  "metadata": {
+    "method": "Tavily search of justice.gov press releases",
+    "sample_size": 43,
+    "match_count": 17,
+    "match_rate": 0.395,
+    "date": "2026-05-15",
+    "notes": "40% floor \u2014 true prosecution rate is 100% for 1128a1 (conviction required). Many cases prosecuted at state level or via plea deals without DOJ press releases. CA (0/7) and OH (1/9) have low federal match rates suggesting state-level prosecution."
+  },
+  "matches": [
+    {
+      "name": "Hal Abrahamson",
+      "state": "NY",
+      "excl_type": "1128a1",
+      "specialty": "PODIATRY",
+      "doj_url": "https://www.justice.gov/usao-edny/pr/long-island-podiatrist-sentenced-health-care-fraud",
+      "summary": "Sentenced 1 year and 1 day for healthcare fraud. Billed for skin grafts never performed, billed under another podiatrist's name.",
+      "case_id": "2:18-cr-00314"
+    },
+    {
+      "name": "Darrell Bryant",
+      "state": "OH",
+      "excl_type": "1128a1",
+      "specialty": "PHYSICIAN",
+      "doj_url": "https://www.justice.gov/usao-sdoh/pr/husband-and-wife-sentenced-prison-health-care-fraud",
+      "summary": "Convicted Dec 2018, conspiracy to commit health care fraud. Sentenced to 84 months.",
+      "case_id": null
+    },
+    {
+      "name": "Zamika Walls",
+      "state": "FL",
+      "excl_type": "1128a1",
+      "specialty": "IND- LIC HC SERV PRO",
+      "doj_url": "",
+      "summary": "Sentenced 15 months for $2.5M Medicaid fraud scheme in Missouri. Listed as FL in LEIE.",
+      "case_id": null
+    },
+    {
+      "name": "Andrew Bohlman",
+      "state": "AZ",
+      "excl_type": "1128a1",
+      "specialty": "CHIROPRACTIC",
+      "doj_url": "",
+      "summary": "Pleaded guilty to Medicaid fraud in Montana. Listed as AZ in LEIE.",
+      "case_id": null
+    },
+    {
+      "name": "Jimmie Anthony",
+      "state": "MI",
+      "excl_type": "1128a1",
+      "specialty": "PHYSICAL THERAPY",
+      "doj_url": "",
+      "summary": "Physical therapist pleaded guilty to billing Medicare for PT services through West Shore Comfort home care company.",
+      "case_id": null
+    },
+    {
+      "name": "Mark Zager",
+      "state": "FL",
+      "excl_type": "1128a1",
+      "specialty": "PHYSICIAN",
+      "doj_url": "https://www.justice.gov/criminal/criminal-vns/case/dynamic-medical-services",
+      "summary": "Charged with conspiracy to commit health care fraud and wire fraud in Southern District of Florida.",
+      "case_id": "1:21-cr-20463"
+    },
+    {
+      "name": "Riyaz Mazkouri",
+      "state": "TX",
+      "excl_type": "1128a1",
+      "specialty": "PHYSICIAN",
+      "doj_url": "https://www.justice.gov/archives/opa/documents-and-resources-june-22-2016-medicare-fraud-strike-force-press-conference",
+      "summary": "Indicted as part of 2016 Medicare Fraud Strike Force takedown. Attending physician at psychiatric hospital in Harris County, TX.",
+      "case_id": null
+    },
+    {
+      "name": "Andrzej Zielke",
+      "state": "PA",
+      "excl_type": "1128a1",
+      "specialty": "PHYSICIAN",
+      "doj_url": "https://www.justice.gov/usao-wdpa/pr/former-pittsburgh-area-doctor-pleads-guilty-unlawfully-prescribing-opioids-health-care",
+      "summary": "Former Pittsburgh-area doctor pleaded guilty to unlawfully prescribing opioids and health care fraud via fraudulent Medicaid claims.",
+      "case_id": null
+    },
+    {
+      "name": "Syed Aziz",
+      "state": "TX",
+      "excl_type": "1128a1",
+      "specialty": "PHYSICIAN",
+      "doj_url": "https://www.justice.gov/usao-ndtx/pr/sixteen-individuals-charged-60-million-medicare-fraud-scheme",
+      "summary": "Part of $60 million Medicare fraud scheme in Northern District of Texas. 16 individuals charged.",
+      "case_id": null
+    },
+    {
+      "name": "Eva Gateva",
+      "state": "NY",
+      "excl_type": "1128a3",
+      "specialty": "PHYSICIAN",
+      "doj_url": "https://www.justice.gov/archive/usao/nys/pressreleases/February12/zemlymsky/zemlyanskymikhailetalindictment.pdf",
+      "summary": "Named in Zemlyansky et al. indictment \u2014 $110M mail fraud conspiracy in Eastern District of New York.",
+      "case_id": null
+    },
+    {
+      "name": "Moses Degraft-Johnson",
+      "state": "NJ",
+      "excl_type": "1128a1",
+      "specialty": "PHYSICIAN",
+      "doj_url": "https://www.justice.gov/usao-ndfl/pr/tallahassee-doctor-pleads-guilty-defrauding-health-insurance-providers-29-million-and",
+      "summary": "Dual US-Ghana citizen pleaded guilty to $2.9M health insurance fraud and conspiracy in Northern District of Florida.",
+      "case_id": null
+    },
+    {
+      "name": "Ahmed El Soury",
+      "state": "NJ",
+      "excl_type": "1128a1",
+      "specialty": "PHYSICIAN",
+      "doj_url": "https://www.justice.gov/usao-nj/pr/new-york-doctor-sentenced-33-months-prison-role-test-referral-scheme-new-jersey-clinical",
+      "summary": "Sentenced to 33 months for role in test referral scheme at New Jersey clinical lab.",
+      "case_id": null
+    },
+    {
+      "name": "Salman Ali",
+      "state": "MI",
+      "excl_type": "1128a1",
+      "specialty": "BUS OWNER/EXEC",
+      "doj_url": "https://www.justice.gov/archives/opa/pr/20-detroit-area-residents-charged-medicare-fraud-strike-force-takedown-approximately-34",
+      "summary": "Part of $34M Detroit-area Medicare Fraud Strike Force takedown. 20 residents charged.",
+      "case_id": null
+    },
+    {
+      "name": "Hector Molina",
+      "state": "TX",
+      "excl_type": "1128a1",
+      "specialty": "PHYSICIAN",
+      "doj_url": "https://www.justice.gov/usao-ndtx/pr/twelve-charged-dallas-part-largest-national-medicare-fraud-takedown-history",
+      "summary": "Part of largest national Medicare fraud takedown in history. Charged in Dallas, Northern District of Texas.",
+      "case_id": null
+    },
+    {
+      "name": "Kyrenia Rodriguez",
+      "state": "FL",
+      "excl_type": "1128a3",
+      "specialty": "IND- LIC HC SERV PRO",
+      "doj_url": "https://www.justice.gov/usao-sdfl/pr/south-florida-health-care-clinic-owners-doctor-others-sentenced-medical-billing-fraud",
+      "summary": "Physical therapy assistant sentenced to 30 months for medical billing fraud in South Florida.",
+      "case_id": null
+    },
+    {
+      "name": "Jason Gerner",
+      "state": "NJ",
+      "excl_type": "1128a3",
+      "specialty": "IND- LIC HC SERV PRO",
+      "doj_url": "https://www.justice.gov/usao-edpa/pr/new-jersey-man-sentenced-three-years-prison-and-over-9-million-restitution-drug-rehab",
+      "summary": "Sentenced to 3 years and $9M restitution for drug rehab health care fraud scheme.",
+      "case_id": null
+    },
+    {
+      "name": "Suhyun An",
+      "state": "TX",
+      "excl_type": "1128b7",
+      "specialty": "CHIROPRACTIC",
+      "doj_url": "https://www.justice.gov/usao-sdtx/pr/wrongful-billing-results-26m-settlement-and-10-year-exclusion-federal-health-care",
+      "summary": "Chiropractor agreed to $2.6M settlement and 10-year exclusion for fraudulent billing of acupuncture devices.",
+      "case_id": null
+    }
+  ],
+  "no_match_sample": [
+    {
+      "name": "Kamel Abraham",
+      "state": "OH"
+    },
+    {
+      "name": "Wael Aboughali",
+      "state": "TX"
+    },
+    {
+      "name": "David Dickey",
+      "state": "MI"
+    },
+    {
+      "name": "Espanola Johnson-Boddie",
+      "state": "CA"
+    },
+    {
+      "name": "Jesus Fonseca",
+      "state": "FL"
+    },
+    {
+      "name": "Lora Osher",
+      "state": "CA"
+    },
+    {
+      "name": "Luis Guerrero",
+      "state": "CA"
+    },
+    {
+      "name": "Adrianne Gonzalez",
+      "state": "CA"
+    },
+    {
+      "name": "Issac Weintroub",
+      "state": "CA"
+    },
+    {
+      "name": "Richard Kroop",
+      "state": "CA"
+    },
+    {
+      "name": "Joseph Oesterling",
+      "state": "MI"
+    },
+    {
+      "name": "Nemaan Ghuman",
+      "state": "NY"
+    },
+    {
+      "name": "Subramaniam Khanthan",
+      "state": "NJ"
+    },
+    {
+      "name": "Kedar Deshpande",
+      "state": "OH"
+    },
+    {
+      "name": "Jeffrey Gross",
+      "state": "CA"
+    },
+    {
+      "name": "Peter Ulbrich",
+      "state": "GA"
+    },
+    {
+      "name": "Rommel Perez",
+      "state": "MI"
+    },
+    {
+      "name": "Hassan Hamdan",
+      "state": "MI"
+    },
+    {
+      "name": "Nabil Al-Subari",
+      "state": "MI"
+    },
+    {
+      "name": "Joseph Mayotte",
+      "state": "IL"
+    },
+    {
+      "name": "Camilo Primero",
+      "state": "CA"
+    },
+    {
+      "name": "Jami Hackworth",
+      "state": "OH"
+    },
+    {
+      "name": "Lisbeth Guerra",
+      "state": "FL"
+    },
+    {
+      "name": "Michelle Palmer",
+      "state": "OH"
+    },
+    {
+      "name": "La Jena Solomon",
+      "state": "OH"
+    },
+    {
+      "name": "Barbara Maraviglia",
+      "state": "OH"
+    }
+  ]
+}

@@ -545,10 +545,82 @@ def create_visualizations(features_df, comparison_df) -> list[str]:
 
 
 # ---------------------------------------------------------------------------
+# Prosecution matching
+# ---------------------------------------------------------------------------
+
+DOJ_MATCHES_FILE = DATA_DIR / "doj_matches.json"
+
+
+def load_doj_matches() -> dict:
+    """Load pre-computed DOJ press release matches."""
+    if not DOJ_MATCHES_FILE.exists():
+        return {"metadata": {}, "matches": [], "no_match_sample": []}
+    with open(DOJ_MATCHES_FILE) as f:
+        return json.load(f)
+
+
+def match_prosecutions(cohort_df: pd.DataFrame) -> pd.DataFrame:
+    """Cross-reference excluded cohort with DOJ press release matches."""
+    doj = load_doj_matches()
+    if not doj["matches"]:
+        print("  No DOJ matches file found — skipping prosecution matching")
+        return pd.DataFrame()
+
+    matched_names = {m["name"].lower(): m for m in doj["matches"]}
+    no_match_names = {n["name"].lower() for n in doj["no_match_sample"]}
+
+    cohort = cohort_df.copy()
+    cohort["full_name"] = (
+        cohort["FIRSTNAME"].fillna("").str.strip() + " " + cohort["LASTNAME"].fillna("").str.strip()
+    ).str.strip().str.title()
+
+    results = []
+    for _, row in cohort.iterrows():
+        if not row["full_name"] or pd.isna(row["full_name"]):
+            continue
+        name_lower = row["full_name"].lower()
+        has_billing = pd.notna(row.get("billing_year"))
+        if name_lower in matched_names:
+            m = matched_names[name_lower]
+            results.append({
+                "NPI": row["NPI"],
+                "name": row["full_name"],
+                "state": row["STATE"],
+                "excl_type": row.get("EXCLTYPE", ""),
+                "has_billing": has_billing,
+                "doj_match": True,
+                "doj_summary": m.get("summary", ""),
+                "doj_url": m.get("doj_url", ""),
+            })
+        elif name_lower in no_match_names:
+            results.append({
+                "NPI": row["NPI"],
+                "name": row["full_name"],
+                "state": row["STATE"],
+                "excl_type": row.get("EXCLTYPE", ""),
+                "has_billing": has_billing,
+                "doj_match": False,
+                "doj_summary": "",
+                "doj_url": "",
+            })
+
+    df = pd.DataFrame(results)
+    meta = doj.get("metadata", {})
+    n_searched = meta.get("sample_size", len(results))
+    n_matched = meta.get("match_count", df["doj_match"].sum() if not df.empty else 0)
+    rate = meta.get("match_rate", n_matched / max(n_searched, 1))
+
+    print(f"  DOJ press release matching: {n_matched}/{n_searched} searched ({rate:.0%} match rate)")
+    print(f"  Matched in cohort: {df['doj_match'].sum() if not df.empty else 0} providers with DOJ press releases")
+    return df
+
+
+# ---------------------------------------------------------------------------
 # Report
 # ---------------------------------------------------------------------------
 
-def generate_report(cohort_df, provider_df, comparison_df, features_df, figure_paths):
+def generate_report(cohort_df, provider_df, comparison_df, features_df, figure_paths,
+                    prosecution_df=None):
     lines = []
     lines.append("# Medicare Fraud Backtest POC — Results\n")
     lines.append(f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M')}\n")
@@ -638,6 +710,52 @@ def generate_report(cohort_df, provider_df, comparison_df, features_df, figure_p
             lines.append("**NO SIGNAL:** Excluded providers are indistinguishable from peers.\n")
         lines.append("")
 
+    # Prosecution matching section
+    if prosecution_df is not None and not prosecution_df.empty:
+        doj = load_doj_matches()
+        meta = doj.get("metadata", {})
+        n_searched = meta.get("sample_size", 0)
+        n_matched = meta.get("match_count", 0)
+        rate = meta.get("match_rate", 0)
+
+        lines.append("## DOJ Prosecution Matching\n")
+        lines.append(
+            f"A sample of **{n_searched}** excluded providers was searched against "
+            f"DOJ press releases on justice.gov. **{n_matched}** ({rate:.0%}) matched "
+            f"to published federal prosecutions.\n"
+        )
+        lines.append(
+            "This is a floor estimate — §1128(a)(1) exclusion requires a conviction, "
+            "so all providers in that category were prosecuted. Many cases are handled "
+            "at state level or via plea agreements that don't generate DOJ press releases.\n"
+        )
+
+        matched_rows = prosecution_df[prosecution_df["doj_match"]]
+        if not matched_rows.empty:
+            lines.append("### Matched Providers\n")
+            lines.append("| Name | State | Type | DOJ Summary |")
+            lines.append("|------|-------|------|-------------|")
+            for _, r in matched_rows.iterrows():
+                url = r["doj_url"]
+                name_col = f"[{r['name']}]({url})" if url and str(url) != "nan" else r["name"]
+                lines.append(f"| {name_col} | {r['state']} | {r['excl_type']} | {r['doj_summary']} |")
+            lines.append("")
+
+        # Match rate by state
+        by_state = prosecution_df.groupby("state").agg(
+            searched=("doj_match", "count"),
+            matched=("doj_match", "sum"),
+        )
+        by_state["rate"] = by_state["matched"] / by_state["searched"]
+        by_state = by_state.sort_values("rate", ascending=False)
+
+        lines.append("### Match Rate by State\n")
+        lines.append("| State | Searched | Matched | Rate |")
+        lines.append("|-------|----------|---------|------|")
+        for st, row in by_state.iterrows():
+            lines.append(f"| {st} | {int(row['searched'])} | {int(row['matched'])} | {row['rate']:.0%} |")
+        lines.append("")
+
     if figure_paths:
         lines.append("## Visualizations\n")
         for fp in figure_paths:
@@ -672,15 +790,15 @@ def main():
     print(f"Types: {', '.join(BILLING_EXCL_TYPES)}")
     print("=" * 60)
 
-    print("\n[1/5] LEIE ...")
+    print("\n[1/6] LEIE ...")
     leie_df = download_leie()
 
-    print("\n[2/5] Building excluded cohort ...")
+    print("\n[2/6] Building excluded cohort ...")
     cohort_df = build_excluded_cohort(leie_df)
     if cohort_df.empty:
         print("  FATAL: No excluded providers."); sys.exit(1)
 
-    print("\n[3/5] Finding best billing year per provider ...")
+    print("\n[3/6] Finding best billing year per provider ...")
     cohort_df = find_best_billing_year(cohort_df)
     matched = cohort_df[cohort_df["billing_year"].notna()]
     print(f"  Matched: {len(matched)} providers with billing data")
@@ -689,7 +807,7 @@ def main():
 
     excluded_npis = set(matched["NPI"])
 
-    print("\n[4/5] Loading billing data + building peers ...")
+    print("\n[4/6] Loading billing data + building peers ...")
     provider_df, service_df = load_billing_data(matched)
 
     # Get specialties of excluded for peer filtering
@@ -711,11 +829,16 @@ def main():
     print(f"  Excluded rows after dedup: {len(excl_rows)} (unique NPIs: {excl_rows['Rndrng_NPI'].nunique()})")
     all_rows = pd.concat([excl_rows, peer_df], ignore_index=True)
 
-    print("\n[5/5] Features, stats, visualizations ...")
+    print("\n[5/6] Features, stats, visualizations ...")
     features_df = compute_features(all_rows, service_df, excluded_npis)
     comparison_df = compare_groups(features_df)
     figure_paths = create_visualizations(features_df, comparison_df)
-    generate_report(cohort_df, provider_df, comparison_df, features_df, figure_paths)
+
+    print("\n[6/6] Prosecution matching ...")
+    prosecution_df = match_prosecutions(cohort_df)
+
+    generate_report(cohort_df, provider_df, comparison_df, features_df, figure_paths,
+                    prosecution_df)
 
     print("\n" + "=" * 60)
     print("DONE")
