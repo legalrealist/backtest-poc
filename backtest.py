@@ -21,8 +21,9 @@ FIGURES_DIR = Path("figures")
 
 LEIE_URL = "https://oig.hhs.gov/exclusions/downloadables/UPDATED.csv"
 
-TOP_STATES = ["FL", "TX", "CA", "NY", "NJ", "IL", "PA", "OH", "MI", "GA"]
-EXCL_YEARS = range(2020, 2024)  # exclusion date range
+TOP_STATES = None  # None = all states
+EXCL_YEARS = range(2018, 2024)  # exclusion date range
+BILLING_EXCL_TYPES = ["1128a1", "1128a3", "1128b7"]  # fraud-related exclusions
 
 CMS_PROVIDER_UUIDS = {
     2017: "44ea2789-993f-4d55-ac44-ed7f160b58fa",
@@ -131,12 +132,19 @@ def download_cms_state_year(state: str, year: int, kind: str) -> pd.DataFrame:
 
 def build_excluded_cohort(leie_df: pd.DataFrame) -> pd.DataFrame:
     df = leie_df.copy()
-    df = df[df["STATE"].isin(TOP_STATES)]
-    print(f"  Top-10 states: {len(df):,}")
+    if TOP_STATES is not None:
+        df = df[df["STATE"].isin(TOP_STATES)]
+        print(f"  Filtered to {len(TOP_STATES)} states: {len(df):,}")
+    else:
+        df = df[df["STATE"].notna() & (df["STATE"].str.len() == 2)]
+        print(f"  All US states: {len(df):,}")
 
     df["EXCLDATE"] = pd.to_datetime(df["EXCLDATE"], format="%Y%m%d", errors="coerce")
     df = df[df["EXCLDATE"].dt.year.isin(EXCL_YEARS)]
     print(f"  Excluded {min(EXCL_YEARS)}-{max(EXCL_YEARS)}: {len(df):,}")
+
+    df = df[df["EXCLTYPE"].isin(BILLING_EXCL_TYPES)]
+    print(f"  Billing-specific types ({', '.join(BILLING_EXCL_TYPES)}): {len(df):,}")
 
     df = df[df["NPI"].notna() & (df["NPI"].str.strip() != "") & (df["NPI"] != "0000000000")]
     df = df.drop_duplicates(subset="NPI")
@@ -550,7 +558,8 @@ def generate_report(cohort_df, provider_df, comparison_df, features_df, figure_p
     lines.append("## Cohort Summary\n")
     lines.append(f"- **Excluded providers matched to Part B billing:** {excl_n}")
     lines.append(f"- **Peer providers (same state/specialty/year):** {peer_n:,}")
-    lines.append(f"- **States:** {', '.join(TOP_STATES)}")
+    states_str = ', '.join(TOP_STATES) if TOP_STATES else f"{features_df['state'].nunique()} states"
+    lines.append(f"- **States:** {states_str}")
     lines.append(f"- **Exclusion date range:** {min(EXCL_YEARS)}-{max(EXCL_YEARS)}")
     lines.append(f"- **Billing data:** best available pre-exclusion year per provider\n")
 
@@ -658,8 +667,9 @@ def main():
 
     print("=" * 60)
     print("MEDICARE FRAUD BACKTEST POC — EXPANDED")
-    print(f"States: {', '.join(TOP_STATES)}")
+    print(f"States: {', '.join(TOP_STATES) if TOP_STATES else 'ALL'}")
     print(f"Exclusions: {min(EXCL_YEARS)}-{max(EXCL_YEARS)}")
+    print(f"Types: {', '.join(BILLING_EXCL_TYPES)}")
     print("=" * 60)
 
     print("\n[1/5] LEIE ...")
