@@ -44,6 +44,17 @@ The pipeline went through several iterations to reach the current design:
 5. **Part B, all states, §1128(a)(1) + §1128(b)(7) only** — 245 providers, 10/15 significant. Power recovered, but concentration metrics weaker.
 6. **Part B, all states, §1128(a)(1) + §1128(a)(3) + §1128(b)(7)** — 289 providers, 14/15 significant. Adding healthcare fraud felonies back in recovered concentration signal while keeping the clean cohort.
 
+## DOJ Prosecution Matching
+
+A sample of 43 excluded providers was searched against DOJ press releases on justice.gov. **17 (40%) matched** to published federal prosecutions — sentences ranging from 15 months to 84 months, fraud amounts from $2.5M to $110M.
+
+Match rate by state:
+- **TX (80%), NJ (75%), NY (67%)** — high federal prosecution visibility (Medicare Fraud Strike Force states)
+- **OH (14%), CA (0%)** — likely prosecuted at state level by AG offices
+- All §1128(a)(1) providers were convicted by definition — the 40% is what's findable via DOJ press releases, not the true prosecution rate
+
+Matched providers are listed with DOJ links in [`report.md`](report.md). Data stored in `data/doj_matches.json`.
+
 ## Data Sources
 
 | Source | URL | Purpose |
@@ -72,7 +83,8 @@ First run downloads ~4GB of CMS data for all states (cached to `data/` as parque
 5. Build peer groups — same state, same specialty, same year, ≥11 beneficiaries
 6. Compute 15 features — volume, intensity, concentration, demographics
 7. Statistical comparison — Mann-Whitney U, Welch's t-test, Cohen's d, Bonferroni correction
-8. Visualizations and report
+8. DOJ prosecution matching — cross-reference excluded providers with justice.gov press releases
+9. Visualizations and report
 
 ## Caveats
 
